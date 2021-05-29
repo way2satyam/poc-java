@@ -1,2 +1,2 @@
-# poc-java
-Spring Boot application with proof of concepts on modules like rest, database connectivity, transactions, caching, logging, security, actuator, scheduling and messaging 
+# POC-java
+Spring Boot application with proof of concepts on modules like rest, database connectivity, transaction managment,unit testing, caching, logging, security, actuator, scheduling and messaging.
