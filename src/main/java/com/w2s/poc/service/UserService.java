@@ -1,13 +1,17 @@
 package com.w2s.poc.service;
 
+import com.w2s.poc.Meta;
 import com.w2s.poc.bean.User;
 import com.w2s.poc.dto.UserData;
 import com.w2s.poc.repository.UserRepository;
+import com.w2s.poc.utils.KeyGen;
+import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Optional;
 
 @Service
@@ -24,12 +28,19 @@ public class UserService {
         return user.orElse(null);
     }
 
+    public User updateUser(User user){
+        return saveUser(user);
+    }
 
     public User saveUser(User user) {
-        repository.save(user);
+        if(Strings.isBlank(user.getId())){
+            user.setId(KeyGen.generateUUIDKey(Meta.GENERATE_ID_TYPE_USER));
+            user.setCreatedTime(Instant.now());
+        }
+        user.setModifiedTime(Instant.now());
         logger.info("save user to db : {}",
                 user);
-        return user;
+        return repository.save(user);
     }
 
     public void deleteUser(String id) {
