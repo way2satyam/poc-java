@@ -1,5 +1,9 @@
 spring:
   data:
     mongodb:
-      uri: mongodb+srv://satyam:u3eshVEIoYh3sWTK@cluster0.8z7xq.mongodb.net/sample_airbnb?retryWrites=true&w=majority
-      database: sample_airbnb
+      uri: mongodb+srv://satyam:u3eshVEIoYh3sWTK@cluster0.8z7xq.mongodb.net/sample_poc?retryWrites=true&w=majority
+      database: sample_poc
+
+  output:
+    ansi:
+      enabled: ALWAYS
