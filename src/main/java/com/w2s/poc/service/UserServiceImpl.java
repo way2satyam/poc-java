@@ -1,16 +1,16 @@
 package com.w2s.poc.service;
 
-import com.w2s.poc.Meta;
-import com.w2s.poc.bean.User;
+import com.w2s.poc.config.Meta;
+import com.w2s.poc.model.User;
 import com.w2s.poc.dto.UserData;
 import com.w2s.poc.repository.UserRepository;
 import com.w2s.poc.utils.KeyGen;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -61,7 +61,12 @@ public class UserServiceImpl implements UserService{
         repository.disableById(id);
     }
 
-    public UserData getUserData(User user) {
+    public UserData getUserData(String id){
+        User user = getUser(id);
+        return getUserData(user);
+    }
+
+    private UserData getUserData(User user) {
         if(user!=null){
             return UserData.builder()
                     .id(user.getId())
@@ -78,4 +83,6 @@ public class UserServiceImpl implements UserService{
         }
         return  null;
     }
+
+
 }

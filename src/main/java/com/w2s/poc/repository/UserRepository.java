@@ -1,19 +1,6 @@
 package com.w2s.poc.repository;
 
-import com.mongodb.client.result.UpdateResult;
-import com.w2s.poc.bean.User;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.stereotype.Repository;
-
-import java.time.Instant;
-import java.util.List;
-import java.util.Optional;
+import com.w2s.poc.model.User;
 
 
 public interface UserRepository {

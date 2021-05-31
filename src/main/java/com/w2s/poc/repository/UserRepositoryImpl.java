@@ -1,7 +1,8 @@
 package com.w2s.poc.repository;
 
 import com.mongodb.client.result.UpdateResult;
-import com.w2s.poc.bean.User;
+import com.w2s.poc.model.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -14,6 +15,7 @@ import java.time.Instant;
 
 @Repository
 @Qualifier("userRepositoryImpl")
+@RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository{
 
     @Autowired

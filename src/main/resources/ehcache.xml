@@ -8,7 +8,7 @@
         <persistence directory="cache" />
         <cache-template name="default">
             <expiry>
-                <tti unit="seconds">30</tti>
+                <tti unit="minutes">2</tti>
             </expiry>
             <listeners>
                 <listener>
