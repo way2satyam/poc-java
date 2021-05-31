@@ -16,10 +16,10 @@ import java.util.Arrays;
 @EnableCaching
 public class EhcacheConfig {
 
-//    @Bean
-//    public KeyGenerator customKeyGenerator() {
-//        return (Object target, Method method, Object... params) ->
-//                method.getName() + "_" + Arrays.toString(params);
-//    }
+    @Bean
+    public KeyGenerator customKeyGenerator() {
+        return (Object target, Method method, Object... params) ->
+                method.getName() + "_" + Arrays.toString(params);
+    }
 
 }
