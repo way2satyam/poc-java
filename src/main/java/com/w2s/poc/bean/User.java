@@ -15,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document("users")
-@Builder
 public class User {
 
     @Id
@@ -31,6 +30,7 @@ public class User {
     private boolean locked;
     private boolean enabled;
     private boolean expired;
+    private boolean deleted;
     private List<String> authorities = new ArrayList<>();
     private Instant createdTime;
     private Instant modifiedTime;

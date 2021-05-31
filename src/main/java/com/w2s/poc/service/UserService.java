@@ -22,14 +22,10 @@ public class UserService {
     private UserRepository repository;
 
     public User getUser(String id) {
-        Optional<User> user = repository.findById(id);
+        User user = repository.findById(id);
         logger.info("get user by {} from db is : {}",
                 id,user);
-        return user.orElse(null);
-    }
-
-    public User updateUser(User user){
-        return saveUser(user);
+        return user;
     }
 
     public User saveUser(User user) {
@@ -43,11 +39,24 @@ public class UserService {
         return repository.save(user);
     }
 
+    public User updateUser(User user){
+        return saveUser(user);
+    }
+
     public void deleteUser(String id) {
-        logger.info("delete user from db by {}");
+        logger.info("soft delete user by {}",id);
         repository.deleteById(id);
     }
 
+    public void enableUser(String id){
+        logger.info("enable user by {}",id);
+        repository.enableById(id);
+    }
+
+    public void disableUser(String id){
+        logger.info("disable user by {}",id);
+        repository.disableById(id);
+    }
 
     public UserData getUserData(String id) {
         User user = getUser(id);
