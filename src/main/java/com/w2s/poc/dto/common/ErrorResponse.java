@@ -31,7 +31,7 @@ public class ErrorResponse extends Exception {
 
     public void addDataAttribute(String attributeName, Object attributeValue) {
         if(this.data == null){
-            this.data = new HashMap<String, Object>();
+            this.data = new HashMap<>();
         }
         this.data.put(attributeName, attributeValue);
     }
