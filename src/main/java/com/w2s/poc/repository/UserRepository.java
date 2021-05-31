@@ -5,13 +5,13 @@ import com.w2s.poc.model.User;
 
 public interface UserRepository {
 
-    public User findById(String id);
+    User findById(String id);
 
-    public User save(User user);
+    User save(User user);
 
-    public long enableById(String id);
+    long enableById(String id);
 
-    public long disableById(String id);
+    long disableById(String id);
 
-    public long deleteById(String id);
+    long lockById(String id);
 }

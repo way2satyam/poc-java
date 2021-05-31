@@ -1,8 +1,6 @@
 package com.w2s.poc.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -30,7 +28,6 @@ public class User implements Serializable {
     private boolean locked;
     private boolean enabled;
     private boolean expired;
-    private boolean deleted;
     private List<String> authorities = new ArrayList<>();
     private Instant createdTime;
     private Instant modifiedTime;

@@ -22,35 +22,42 @@ public class UserRepositoryImpl implements UserRepository{
     private MongoTemplate mongoTemplate;
 
     public User findById(String id){
-        return mongoTemplate.findById(id,User.class);
+        Criteria criteria = Criteria.where("_id").is(id)
+                .and("enabled").is(true)
+                .and("locked").is(false);
+
+        Query query = new Query(criteria);
+        return mongoTemplate.findOne(query, User.class);
     }
     public User save(User user){
         return mongoTemplate.save(user);
     }
-    public long enableById(String id){
+
+    public long enableById(String id) {
         Query query = new Query(Criteria.where("_id").is(id));
         Update update = new Update();
-        update.set("enabled",true);
+        update.set("enabled", true);
         update.set("modifiedTime", Instant.now());
-        UpdateResult result = mongoTemplate.updateFirst(query,update,User.class);
+        UpdateResult result = mongoTemplate.updateFirst(query, update, User.class);
         return result.getModifiedCount();
     }
-    public long disableById(String id){
+
+    public long disableById(String id) {
         Query query = new Query(Criteria.where("_id").is(id));
         Update update = new Update();
-        update.set("enabled",false);
+        update.set("enabled", false);
         update.set("modifiedTime", Instant.now());
-        UpdateResult result = mongoTemplate.updateFirst(query,update,User.class);
+        UpdateResult result = mongoTemplate.updateFirst(query, update, User.class);
         return result.getModifiedCount();
     }
-    public long deleteById(String id){
+
+    public long lockById(String id) {
         Query query = new Query(Criteria.where("_id").is(id));
         Update update = new Update();
-        update.set("enabled",false);
-        update.set("deleted",true);
-        update.set("locked",true);
+        update.set("enabled", false);
+        update.set("locked", true);
         update.set("modifiedTime", Instant.now());
-        UpdateResult result = mongoTemplate.updateFirst(query,update,User.class);
+        UpdateResult result = mongoTemplate.updateFirst(query, update, User.class);
         return result.getModifiedCount();
     }
 

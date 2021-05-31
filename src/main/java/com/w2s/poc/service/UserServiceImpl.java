@@ -1,11 +1,10 @@
 package com.w2s.poc.service;
 
 import com.w2s.poc.config.Meta;
-import com.w2s.poc.model.User;
 import com.w2s.poc.dto.UserData;
+import com.w2s.poc.model.User;
 import com.w2s.poc.repository.UserRepository;
 import com.w2s.poc.utils.KeyGen;
-import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +26,7 @@ public class UserServiceImpl implements UserService{
     public User getUser(String id) {
         User user = repository.findById(id);
         logger.info("get user by {} from db is : {}",
-                id,user);
+                user.getId(), user);
         return user;
     }
 
@@ -42,22 +41,22 @@ public class UserServiceImpl implements UserService{
         return repository.save(user);
     }
 
-    public User updateUser(User user){
+    public User updateUser(User user) {
         return saveUser(user);
     }
 
-    public void deleteUser(String id) {
-        logger.info("soft delete user by {}",id);
-        repository.deleteById(id);
+    public void lockById(String id) {
+        logger.info("soft delete user by {}", id);
+        repository.lockById(id);
     }
 
-    public void enableUser(String id){
-        logger.info("enable user by {}",id);
+    public void enableUser(String id) {
+        logger.info("enable user by {}", id);
         repository.enableById(id);
     }
 
-    public void disableUser(String id){
-        logger.info("disable user by {}",id);
+    public void disableUser(String id) {
+        logger.info("disable user by {}", id);
         repository.disableById(id);
     }
 
