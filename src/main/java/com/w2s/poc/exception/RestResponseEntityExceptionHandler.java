@@ -1,18 +1,16 @@
 package com.w2s.poc.exception;
 
-import com.w2s.poc.dto.common.CommonResponse;
 import com.w2s.poc.dto.common.ErrorResponse;
-import com.w2s.poc.service.UserServiceImpl;
 import com.w2s.poc.utils.StackTraceUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.time.Instant;
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
@@ -29,10 +27,14 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleException(Exception error) {
         logger.error(error.toString(), error, this.getClass());
-        ErrorResponse errorResponse = new ErrorResponse(9000, error.getClass().getName());
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .message(error.getClass().getName())
+                .time(Instant.now())
+                .build();
         errorResponse.addDataAttribute("cause", error.getMessage());
         errorResponse.addDataAttribute("stackTrace", StackTraceUtils.stackTraceToString(error));
-        ResponseEntity<CommonResponse> responseEntity = new ResponseEntity<CommonResponse>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        ResponseEntity<ErrorResponse> responseEntity = new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         return responseEntity;
     }
 

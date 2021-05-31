@@ -25,8 +25,8 @@ public class UserServiceImpl implements UserService{
 
     public User getUser(String id) {
         User user = repository.findById(id);
-        logger.info("get user by {} from db is : {}",
-                user.getId(), user);
+        logger.info("Get user by id : {}",
+                id);
         return user;
     }
 
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService{
             user.setCreatedTime(Instant.now());
         }
         user.setModifiedTime(Instant.now());
-        logger.info("save user to db : {}",
+        logger.info("Save user : {}",
                 user);
         return repository.save(user);
     }
@@ -46,27 +46,29 @@ public class UserServiceImpl implements UserService{
     }
 
     public void lockById(String id) {
-        logger.info("soft delete user by {}", id);
+        logger.info("Lock user by id : {}", id);
         repository.lockById(id);
     }
 
     public void enableUser(String id) {
-        logger.info("enable user by {}", id);
+        logger.info("Enable user by id : {}", id);
         repository.enableById(id);
     }
 
     public void disableUser(String id) {
-        logger.info("disable user by {}", id);
+        logger.info("Disable user by id : {}", id);
         repository.disableById(id);
     }
 
-    public UserData getUserData(String id){
+    public UserData getUserData(String id) {
+        logger.info("Get user data by id : {}",
+                id);
         User user = getUser(id);
         return getUserData(user);
     }
 
     private UserData getUserData(User user) {
-        if(user!=null){
+        if (user != null) {
             return UserData.builder()
                     .id(user.getId())
                     .name(user.getName())
