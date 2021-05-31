@@ -15,43 +15,16 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
-public class UserRepository {
 
-    @Autowired
-    private MongoTemplate mongoTemplate;
+public interface UserRepository {
 
-    public User findById(String id){
-        return mongoTemplate.findById(id,User.class);
-    }
-    public User save(User user){
-        return mongoTemplate.save(user);
-    }
-    public long enableById(String id){
-        Query query = new Query(Criteria.where("_id").is(id));
-        Update update = new Update();
-        update.set("enabled",true);
-        update.set("modifiedTime", Instant.now());
-        UpdateResult result = mongoTemplate.updateFirst(query,update,User.class);
-        return result.getModifiedCount();
-    }
-    public long disableById(String id){
-        Query query = new Query(Criteria.where("_id").is(id));
-        Update update = new Update();
-        update.set("enabled",false);
-        update.set("modifiedTime", Instant.now());
-        UpdateResult result = mongoTemplate.updateFirst(query,update,User.class);
-        return result.getModifiedCount();
-    }
-    public long deleteById(String id){
-        Query query = new Query(Criteria.where("_id").is(id));
-        Update update = new Update();
-        update.set("enabled",false);
-        update.set("deleted",true);
-        update.set("locked",true);
-        update.set("modifiedTime", Instant.now());
-        UpdateResult result = mongoTemplate.updateFirst(query,update,User.class);
-        return result.getModifiedCount();
-    }
+    public User findById(String id);
 
+    public User save(User user);
+
+    public long enableById(String id);
+
+    public long disableById(String id);
+
+    public long deleteById(String id);
 }
