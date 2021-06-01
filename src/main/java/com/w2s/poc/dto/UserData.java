@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.Instant;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -19,7 +18,7 @@ public class UserData implements Serializable {
     private String mobile;
     private String coverIcon;
     private String coverImage;
-    private Instant createdTime;
-    private Instant modifiedTime;
+    private String createdTime;
+    private String modifiedTime;
 
 }

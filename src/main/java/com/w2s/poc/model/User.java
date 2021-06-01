@@ -26,7 +26,7 @@ public class User implements Serializable {
     private String coverIcon;  // aka profilePic
     private String coverImage;
     private boolean locked;
-    private boolean enabled;
+    private boolean enabled = true;
     private boolean expired;
     private List<String> authorities = new ArrayList<>();
     private Instant createdTime;

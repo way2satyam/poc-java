@@ -2,6 +2,8 @@ package com.w2s.poc.service;
 
 import com.w2s.poc.config.Meta;
 import com.w2s.poc.dto.UserData;
+import com.w2s.poc.dto.mapper.UserDataToUser;
+import com.w2s.poc.dto.mapper.UserToUserData;
 import com.w2s.poc.model.User;
 import com.w2s.poc.repository.UserRepository;
 import com.w2s.poc.utils.KeyGen;
@@ -17,72 +19,57 @@ import java.time.Instant;
 @Service
 @Qualifier("userServiceImpl")
 public class UserServiceImpl implements UserService{
-    Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     private UserRepository repository;
 
 
-    public User getUser(String id) {
+    protected User getUser(String id) {
         User user = repository.findById(id);
-        logger.info("Get user by id : {}",
-                id);
+        logger.debug("Get user by id : {} -> {}",
+                id, user);
         return user;
     }
 
-    public User saveUser(User user) {
-        if(Strings.isBlank(user.getId())){
+    protected User saveUser(User user) {
+        if (Strings.isBlank(user.getId())) {
             user.setId(KeyGen.generateUUIDKey(Meta.GENERATE_ID_TYPE_USER));
             user.setCreatedTime(Instant.now());
         }
         user.setModifiedTime(Instant.now());
-        logger.info("Save user : {}",
+        logger.debug("Save user : {}",
                 user);
         return repository.save(user);
     }
 
-    public User updateUser(User user) {
-        return saveUser(user);
-    }
-
     public void lockById(String id) {
-        logger.info("Lock user by id : {}", id);
+        logger.debug("Lock user by id : {}", id);
         repository.lockById(id);
     }
 
     public void enableUser(String id) {
-        logger.info("Enable user by id : {}", id);
+        logger.debug("Enable user by id : {}", id);
         repository.enableById(id);
     }
 
     public void disableUser(String id) {
-        logger.info("Disable user by id : {}", id);
+        logger.debug("Disable user by id : {}", id);
         repository.disableById(id);
     }
 
     public UserData getUserData(String id) {
-        logger.info("Get user data by id : {}",
-                id);
         User user = getUser(id);
-        return getUserData(user);
+        UserData userData = UserToUserData.convert(user);
+        logger.debug("Get user data by id : {} -> {}",
+                id, userData);
+        return userData;
     }
 
-    private UserData getUserData(User user) {
-        if (user != null) {
-            return UserData.builder()
-                    .id(user.getId())
-                    .name(user.getName())
-                    .username(user.getUsername())
-                    .userNumber(user.getUserNumber())
-                    .email(user.getEmail())
-                    .mobile(user.getMobile())
-                    .coverIcon(user.getCoverIcon())
-                    .coverImage(user.getCoverImage())
-                    .createdTime(user.getCreatedTime())
-                    .modifiedTime(user.getModifiedTime())
-                    .build();
-        }
-        return  null;
+    public User updateUserData(UserData userData) {
+        User user = getUser(userData.getId());
+        user = UserDataToUser.convert(userData, user);
+        return saveUser(user);
     }
 
 

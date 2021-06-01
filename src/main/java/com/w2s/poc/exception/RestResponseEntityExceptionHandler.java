@@ -15,13 +15,12 @@ import java.time.Instant;
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    Logger logger = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
 
     @ExceptionHandler(ErrorResponse.class)
     public ResponseEntity<?> handleException(ErrorResponse error) {
         logger.error(error.toString(), this.getClass());
-        ResponseEntity<ErrorResponse> responseEntity = new ResponseEntity<ErrorResponse>(error, HttpStatus.BAD_REQUEST);
-        return responseEntity;
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
@@ -34,8 +33,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                 .build();
         errorResponse.addDataAttribute("cause", error.getMessage());
         errorResponse.addDataAttribute("stackTrace", StackTraceUtils.stackTraceToString(error));
-        ResponseEntity<ErrorResponse> responseEntity = new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-        return responseEntity;
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
