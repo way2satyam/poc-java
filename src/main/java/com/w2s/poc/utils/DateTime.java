@@ -60,4 +60,8 @@ public class DateTime {
         }
         return convert(dateTime, pattern);
     }
+
+    public static Instant convert(long epochMilli) {
+        return Instant.ofEpochMilli(epochMilli);
+    }
 }
