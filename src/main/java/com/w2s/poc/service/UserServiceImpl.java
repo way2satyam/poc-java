@@ -1,9 +1,8 @@
 package com.w2s.poc.service;
 
-import com.w2s.poc.config.Meta;
+import com.w2s.poc.Meta;
 import com.w2s.poc.dto.UserData;
-import com.w2s.poc.dto.mapper.UserDataToUser;
-import com.w2s.poc.dto.mapper.UserToUserData;
+import com.w2s.poc.dto.mapper.UserMapper;
 import com.w2s.poc.model.User;
 import com.w2s.poc.repository.UserRepository;
 import com.w2s.poc.utils.KeyGen;
@@ -60,7 +59,7 @@ public class UserServiceImpl implements UserService{
 
     public UserData getUserData(String id) {
         User user = getUser(id);
-        UserData userData = UserToUserData.convert(user);
+        UserData userData = UserMapper.convertUserToUserData(user);
         logger.debug("Get user data by id : {} -> {}",
                 id, userData);
         return userData;
@@ -68,7 +67,7 @@ public class UserServiceImpl implements UserService{
 
     public User updateUserData(UserData userData) {
         User user = getUser(userData.getId());
-        user = UserDataToUser.convert(userData, user);
+        user = UserMapper.convertUserDataToUser(userData, user);
         return saveUser(user);
     }
 

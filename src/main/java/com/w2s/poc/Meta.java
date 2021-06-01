@@ -1,4 +1,4 @@
-package com.w2s.poc.config;
+package com.w2s.poc;
 
 public class Meta {
 

@@ -1,8 +1,8 @@
 spring:
   data:
     mongodb:
-      uri: mongodb+srv://satyam:u3eshVEIoYh3sWTK@cluster0.8z7xq.mongodb.net/${spring.data.mongodb.database}?retryWrites=true&w=majority
-      database: sample_poc
+      uri: mongodb+srv://satyam:u3eshVEIoYh3sWTK@cluster0.8z7xq.mongodb.net/sample?retryWrites=true&w=majority
+      database: sample
 
   output:
     ansi:
@@ -11,5 +11,11 @@ spring:
   cache:
     jcache:
       config: classpath:ehcache.xml
+
+logging:
+  level:
+    root: INFO
+    com:
+      w2s: DEBUG
 
 
