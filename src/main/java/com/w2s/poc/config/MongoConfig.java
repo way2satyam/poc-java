@@ -7,6 +7,7 @@ import com.mongodb.client.MongoClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
@@ -15,7 +16,7 @@ import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableTransactionManagement
+@EnableTransactionManagement(mode = AdviceMode.ASPECTJ)
 public class MongoConfig extends AbstractMongoClientConfiguration{
     private final static Logger logger = LoggerFactory.getLogger(MongoConfig.class);
 
@@ -23,7 +24,6 @@ public class MongoConfig extends AbstractMongoClientConfiguration{
     private String databaseName;
     @Value("${spring.data.mongodb.uri}")
     private String uri;
-
 
     @Bean
     MongoTransactionManager transactionManager(MongoDatabaseFactory dbFactory) {
@@ -41,7 +41,7 @@ public class MongoConfig extends AbstractMongoClientConfiguration{
         final MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
                 .build();
-        //logger.debug("Init MongoClient with uri -> {}",uri);
+        logger.debug("Init MongoClient For Uri : {} | Database : {}", uri, databaseName);
         return MongoClients.create(mongoClientSettings);
     }
 
